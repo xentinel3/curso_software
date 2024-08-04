@@ -2,51 +2,63 @@ package mx.com.julio.numeroromano;
 
 public class ConvertidorNumeroRomano {
 
-    public String convertir(int numero){
+    public String decimalToRomano(int numero) {
 
-        var romano ="";
+        var centenas = numero / 100;
+        var decenas = (numero % 100) / 10;
+        var unidades = numero %  10;
 
-        if (numero >= 20 && numero <= 23) {
-            return "XX" + generaIes(numero - 20);
-        }
-        if (numero == 19) {
-            return "XIX";
-        }
-        if (numero >= 15 && numero <= 18){
-            romano = "XV";
+        return generaCentena(centenas) + generaDecena(decenas) + generaUnidad(unidades);
+    }
 
-            return romano + generaIes(numero - 15);
-        }
-        if (numero == 14){
-            return "XIV";
-        }
-        if (numero >= 10 && numero <= 13){
-            romano = "X";
 
-            var numeroDeIes = numero - 10;
-            return romano + generaIes(numeroDeIes);
+    private String generaCentena(int centena){
+        if (centena >= 1 && centena <= 3){
+            return generaLetra(centena, 'C');
+        } else if (centena == 4) {
+            return "CD";
+        } else if (centena >= 5 && centena <= 8) {
+            return "D" + generaLetra(centena - 5, 'C');
+        } else if (centena == 9){
+            return "CM";
         }
-        if (numero == 9){
+        return "";
+    }
+
+    private String generaDecena(int decenas){
+
+        if (decenas >= 1 && decenas <= 3){
+            return generaLetra(decenas, 'X');
+        } else if (decenas == 4) {
+            return "XL";
+        } else if (decenas >= 5 && decenas <= 8) {
+            return "L" + generaLetra(decenas - 5, 'X');
+        } else if (decenas == 9){
+            return "XC";
+        }
+        return "";
+    }
+    private String generaUnidad(int unidad) {
+
+        if (unidad >= 1 && unidad <= 3) {
+            return generaLetra(unidad, 'I');
+        } else if (unidad == 4) {
+            return "IV";
+        } else if (unidad >= 5 && unidad <= 8) {
+            return "V" + generaLetra(unidad - 5, 'I');
+        } else if (unidad == 9){
             return "IX";
         }
-        if (numero >= 5 && numero <= 8){
-            romano = "V";
-            var numeroDeIes = numero - 5;
-
-            return romano + generaIes(numeroDeIes);
-        }
-        if (numero == 4){
-            return "IV";
-        }
-
-        return romano +  generaIes(numero);
+        return "";
     }
 
-    private String generaIes(int cantidad){
-        var cadenaIes = "";
-        for (int indice = 0; indice < cantidad; indice++){
-            cadenaIes += "I";
+    private String generaLetra(int cantidad, char letra) {
+        var letras = new StringBuilder();
+
+        for (int indice = 0; indice < cantidad; indice++) {
+            letras.append(letra);
         }
-        return cadenaIes;
+        return letras.toString();
     }
+
 }
